@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34212.112
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GambaTracker", "GambaTracker\GambaTracker.csproj", "{13C812E9-0D42-4B95-8646-40EEBF30636F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommons", "ECommons\ECommons\ECommons.csproj", "{E26AA61C-73DF-425C-B2AD-3450F5C76A8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{13C812E9-0D42-4B95-8646-40EEBF30636F}.Debug|x64.Build.0 = Debug|x64
 		{13C812E9-0D42-4B95-8646-40EEBF30636F}.Release|x64.ActiveCfg = Release|x64
 		{13C812E9-0D42-4B95-8646-40EEBF30636F}.Release|x64.Build.0 = Release|x64
+		{E26AA61C-73DF-425C-B2AD-3450F5C76A8A}.Debug|x64.ActiveCfg = Debug|x64
+		{E26AA61C-73DF-425C-B2AD-3450F5C76A8A}.Debug|x64.Build.0 = Debug|x64
+		{E26AA61C-73DF-425C-B2AD-3450F5C76A8A}.Release|x64.ActiveCfg = Release|x64
+		{E26AA61C-73DF-425C-B2AD-3450F5C76A8A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
