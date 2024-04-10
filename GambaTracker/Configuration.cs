@@ -1,6 +1,7 @@
 using Dalamud.Configuration;
 using Dalamud.Plugin;
 using System;
+using System.Windows.Forms.VisualStyles;
 
 namespace GambaTracker
 {
@@ -8,6 +9,9 @@ namespace GambaTracker
     public class Configuration : IPluginConfiguration
     {
         public int Version { get; set; } = 0;
+        public bool DebugMode { get; set; } = false;
+        public string DebugDealer { get; set; } = "";
+        public int DebugPartySize { get; set; } = 0;
         public bool isDealing { get; set; } = false;
         public string CurrentVenueDropdown { get; set; } = "Custom";
         public string CustomVenueName { get; set; } = "";
@@ -16,6 +20,7 @@ namespace GambaTracker
         public string CurrentGameDropdown { get; set; } = "Blackjack";
         public string StartTime { get; set; } = "";
         public string[] Venues {  get; set; } = ["Custom"];
+        public string[] Dealers { get; set; } = [];
 
         // the below exist just to make saving less cumbersome
         [NonSerialized]

@@ -13,6 +13,7 @@ using System.Threading;
 using ECommons.DalamudServices;
 using System;
 using Dalamud.Game.Text.SeStringHandling;
+using System.Linq;
 
 namespace GambaTracker
 {
@@ -68,8 +69,11 @@ namespace GambaTracker
             // Pull the latest venues from the server
             Task.Run(async () => await Utilities.FetchValidVenuesAsync());
 
+            // Pull the latest dealers from the server
+            Task.Run(async () => await Utilities.FetchValidDealersAsync());
+
             // Trigger the confirmation popup if they were dealing when the plugin was stopped/crashed
-            if(this.Configuration.isDealing == true)
+            if (this.Configuration.isDealing == true)
             {
                 Svc.Framework.Update += OnFrameworkUpdateOnce;
             }
@@ -143,23 +147,20 @@ namespace GambaTracker
             }
             else
             {
+                string dealerName = Svc.ClientState?.LocalPlayer.Name.ToString();
+                string dealerWorld = Svc.ClientState?.LocalPlayer.HomeWorld.GameData.Name.ToString();
+                string dealerNameWorld = $"{dealerName}@{dealerWorld}";
+                var validDealers = P.Configuration.Dealers;
+                PluginLog.Verbose($"Character name: {dealerName}@{dealerWorld}");
 
-                // in response to the slash command, just display our main ui
-                _ = Task.Run(async () =>
+                if (validDealers.Contains(dealerNameWorld))
                 {
-                    string dealerName = Svc.ClientState?.LocalPlayer.Name.ToString();
-                    string dealerWorld = Svc.ClientState?.LocalPlayer.HomeWorld.GameData.Name.ToString();
-                    PluginLog.Verbose($"Character name: {dealerName}@{dealerWorld}");
-                    if (await Utilities.isValidDealer($"{dealerName}@{dealerWorld}"))
-                    {
-                        this.MainWindow.IsOpen = true;
-                    }
-                    else
-                    {
-                        Svc.Chat.Print("You are not an authorized dealer");
-                    }
-                });
-                
+                    this.MainWindow.IsOpen = true;
+                }
+                else
+                {
+                    Svc.Chat.Print("You are not an authorized dealer");
+                }
             }
         }
 
@@ -167,7 +168,33 @@ namespace GambaTracker
 
         private void OnCommand(string command, string args)
         {
-            ToggleDealerWindow();
+            SeString name = Svc.ClientState.LocalPlayer?.Name;
+            String homeworld = Svc.ClientState.LocalPlayer?.HomeWorld.GameData.Name;
+
+            string nameWorld = $"{name}@{homeworld}";
+            if (args == "debug" && (nameWorld == "Asuna Tsukii@Phoenix" || nameWorld == "Asuna Tsuki@Midgardsormr" || nameWorld == "Rin Tsukii@Phoenix"))
+            {
+                if(this.Configuration.DebugMode == false)
+                {
+                    this.Configuration.DebugMode = true;
+                }else
+                {
+                    this.Configuration.DebugMode = false;
+                }
+                this.Configuration.Save();
+
+                ToggleDealerWindow();
+            }else
+            {
+                this.Configuration.DebugMode = false;
+                this.Configuration.Save();
+                ToggleDealerWindow();
+            }
+
+
+
+
+
         }
 
         public void DrawUI()

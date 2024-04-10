@@ -56,13 +56,14 @@ public class MainWindow : Window, IDisposable
     {
         try
         {
-
             string[] validVenues = Plugin.P.Configuration.Venues;
+            string[] validDealers = Plugin.P.Configuration.Dealers;
             var betLimits = Plugin.Configuration.BetLimits;
             var startTime = Plugin.Configuration.StartTime;
             var customVenueName = Plugin.Configuration.CustomVenueName;
             var customVenueLocation = Plugin.Configuration.CustomVenueLocation;
             int currentVenueIndex = Math.Max(0, Array.IndexOf(validVenues, Plugin.Configuration.CurrentVenueDropdown)); // Ensure index is at least 0
+            int currentDebugDealerIndex = Math.Max(0, Array.IndexOf(validDealers, Plugin.Configuration.DebugDealer)); // Ensure index is at least 0
             int currentGameIndex = Math.Max(0, Array.IndexOf(validGames, Plugin.Configuration.CurrentGameDropdown)); // Ensure index is at least 0
 
             if (currentVenueIndex >= validVenues.Length)
@@ -97,14 +98,27 @@ public class MainWindow : Window, IDisposable
                             {
                                 if (Svc.ClientState.LocalPlayer?.IsTargetable == true)
                                 {
-
                                     SeString name = Svc.ClientState.LocalPlayer.Name;
                                     String homeworld = Svc.ClientState.LocalPlayer.HomeWorld.GameData.Name;
+                                    String dealerNameWorld = "";
+                                    int partyCount = 0;
 
-                                    PluginLog.Verbose($"Dealer name: {name}@{homeworld}");
+                                    if (Plugin.Configuration.DebugMode)
+                                    {
+                                        dealerNameWorld = Plugin.Configuration.DebugDealer;
+                                        partyCount = Plugin.Configuration.DebugPartySize;
+                                    }
+                                    else
+                                    {
+                                        dealerNameWorld = $"{name}@{homeworld}";
+                                        partyCount = UniversalParty.Members.Count;
+                                    }
+
+
+                                    PluginLog.Verbose($"Dealer name: {dealerNameWorld}");
                                     PluginLog.Verbose($"Venue Name: {validVenues[currentVenueIndex]}");
                                     PluginLog.Verbose($"Game: {validGames[currentGameIndex]}");
-                                    PluginLog.Verbose($"Player Count: {UniversalParty.Members.Count}");
+                                    PluginLog.Verbose($"Player Count: {partyCount}");
 
                                     string venueName = "";
                                     string venueLocation = "";
@@ -121,13 +135,13 @@ public class MainWindow : Window, IDisposable
 
                                     var data = new
                                     {
-                                        dealer_name = $"{name}@{homeworld}",
+                                        dealer_name = dealerNameWorld,
                                         venue_name = venueName,
                                         location = venueLocation,
                                         bet_limits = betLimits,
                                         start_time = startTime,
                                         game = validGames[currentGameIndex],
-                                        player_count = UniversalParty.Members.Count
+                                        player_count = partyCount
                                     };
                                     string jsonData = JsonSerializer.Serialize(data);
 
@@ -294,6 +308,27 @@ public class MainWindow : Window, IDisposable
                 }
             }
 
+            if(Plugin.Configuration.DebugMode)
+            {
+                ImGui.NewLine();
+                ImGui.Text("Debug");
+                ImGui.Separator();
+
+                if (currentDebugDealerIndex == -1) currentDebugDealerIndex = 0; // Default to first item if not found
+                if (ImGui.Combo("Dealer", ref currentDebugDealerIndex, validDealers, validDealers.Length))
+                {
+                    // Update the configuration with the new selection
+                    Plugin.Configuration.DebugDealer = validDealers[currentDebugDealerIndex];
+                    Plugin.Configuration.Save(); // Save your configuration
+                }
+
+                int debugPartySize = Plugin.Configuration.DebugPartySize;
+                if (ImGui.InputInt("Party Size",ref debugPartySize))
+                {
+                    Plugin.Configuration.DebugPartySize = debugPartySize;
+                    Plugin.Configuration.Save();
+                }
+            }
 
 
             if (currentStatus == "Currently Dealing")

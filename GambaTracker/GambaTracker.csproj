@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Authors></Authors>
     <Company></Company>
-    <Version>0.1.7.1</Version>
+    <Version>0.1.7.2</Version>
     <Description>GambaTracker</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/goatcorp/SamplePlugin</PackageProjectUrl>

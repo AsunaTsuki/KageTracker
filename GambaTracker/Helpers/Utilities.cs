@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using Dalamud.Game.Text.SeStringHandling;
 using ECommons.DalamudServices;
 using ECommons.Logging;
@@ -111,7 +112,7 @@ namespace GambaTracker.Helpers
             }
         }
 
-        public static async Task<bool> isValidDealer(string dealerName)
+        public static async Task FetchValidDealersAsync()
         {
             try
             {
@@ -130,33 +131,32 @@ namespace GambaTracker.Helpers
                         if (Plugin.P?.Configuration != null)
                         {
                             var validDealers = dealers.ToArray();
-                            bool exists = Array.Exists(validDealers, element => element == dealerName);
-
-
-                            if(exists)
+                            if (Plugin.P?.Configuration != null)
                             {
-                                return true;
-                            }else
+                                // Update the configuration with the sorted list
+                                Plugin.P.Configuration.Dealers = dealers;
+
+                                Plugin.P.Configuration.Save();
+                            }
+                            else
                             {
-                                return false;
+                                PluginLog.Error("Plugin.P or Plugin.P.Configuration is not initialized.");
                             }
                         }
                         else
                         {
                             PluginLog.Error("Plugin.P or Plugin.P.Configuration is not initialized.");
-                            return false;
                         }
                     }
-                    return false;
                 }
             }
             catch (Exception ex)
             {
                 // Handle any errors that occur during the request
                 PluginLog.Error($"Error fetching valid dealers: {ex.Message}");
-                return false;
             }
         }
+
 
         public static void ValidateCurrentVenueDropdown()
         {
