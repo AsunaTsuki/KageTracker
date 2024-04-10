@@ -172,28 +172,28 @@ namespace GambaTracker
             String homeworld = Svc.ClientState.LocalPlayer?.HomeWorld.GameData.Name;
 
             string nameWorld = $"{name}@{homeworld}";
-            if (args == "debug" && (nameWorld == "Asuna Tsukii@Phoenix" || nameWorld == "Asuna Tsuki@Midgardsormr" || nameWorld == "Rin Tsukii@Phoenix"))
+            if (args == "debug")
             {
-                if(this.Configuration.DebugMode == false)
+                if (nameWorld == "Asuna Tsukii@Phoenix" || nameWorld == "Asuna Tsuki@Midgardsormr" || nameWorld == "Rin Tsukii@Phoenix")
                 {
-                    this.Configuration.DebugMode = true;
+                    if (this.Configuration.DebugMode == false)
+                    {
+                        this.Configuration.DebugMode = true;
+                    } else
+                    {
+                        this.Configuration.DebugMode = false;
+                    }
+                    this.Configuration.Save();
                 }else
                 {
                     this.Configuration.DebugMode = false;
+                    this.Configuration.Save();
+                    ToggleDealerWindow();
                 }
-                this.Configuration.Save();
-
-                ToggleDealerWindow();
             }else
             {
-                this.Configuration.DebugMode = false;
-                this.Configuration.Save();
                 ToggleDealerWindow();
             }
-
-
-
-
 
         }
 
@@ -205,6 +205,8 @@ namespace GambaTracker
 
         private void DrawMainWindow()
         {
+            this.Configuration.DebugMode = false;
+            this.Configuration.Save();
             ToggleDealerWindow();
         }
 
