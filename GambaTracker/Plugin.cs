@@ -63,7 +63,7 @@ namespace GambaTracker
             });
 
             this.PluginInterface.UiBuilder.Draw += DrawUI;
-            this.PluginInterface.UiBuilder.OpenMainUi += DrawMainWindow;
+            this.PluginInterface.UiBuilder.OpenMainUi += DrawUI;
             //this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
 
             // Pull the latest venues from the server
@@ -152,6 +152,9 @@ namespace GambaTracker
                 string dealerNameWorld = $"{dealerName}@{dealerWorld}";
                 var validDealers = P.Configuration.Dealers;
                 PluginLog.Verbose($"Character name: {dealerName}@{dealerWorld}");
+
+                // Pull the latest dealers from the server
+                Task.Run(async () => await Utilities.FetchValidDealersAsync());
 
                 if (validDealers.Contains(dealerNameWorld))
                 {
