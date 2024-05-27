@@ -18,6 +18,7 @@ namespace GambaTracker
         public string CustomVenueLocation { get; set; } = "";
         public string BetLimits { get; set; } = "";
         public string CurrentGameDropdown { get; set; } = "Blackjack";
+        public string CurrentStandDropdown { get; set; } = "16";
         public string StartTime { get; set; } = "";
         public string[] Venues {  get; set; } = ["Custom"];
         public string[] Dealers { get; set; } = [];

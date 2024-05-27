@@ -24,6 +24,7 @@ public class MainWindow : Window, IDisposable
     private Plugin Plugin;
     
     string[] validGames = new string[] { "Blackjack", "Poker", "Roulette", "Deathroll Tournament" };
+    string[] validStandOptions = new string[] { "16", "16/Soft 17", "17", "17/Soft 18" };
     public Timer _updateTimer;
     public bool _isUpdating = false;
     public string currentStatus = "Not Dealing";
@@ -65,6 +66,7 @@ public class MainWindow : Window, IDisposable
             int currentVenueIndex = Math.Max(0, Array.IndexOf(validVenues, Plugin.Configuration.CurrentVenueDropdown)); // Ensure index is at least 0
             int currentDebugDealerIndex = Math.Max(0, Array.IndexOf(validDealers, Plugin.Configuration.DebugDealer)); // Ensure index is at least 0
             int currentGameIndex = Math.Max(0, Array.IndexOf(validGames, Plugin.Configuration.CurrentGameDropdown)); // Ensure index is at least 0
+            int currentStandIndex = Math.Max(0, Array.IndexOf(validStandOptions, Plugin.Configuration.CurrentStandDropdown)); // Ensure index is at least 0
 
             if (currentVenueIndex >= validVenues.Length)
             {
@@ -139,6 +141,7 @@ public class MainWindow : Window, IDisposable
                                         venue_name = venueName,
                                         location = venueLocation,
                                         bet_limits = betLimits,
+                                        dealer_stand = validStandOptions[currentStandIndex],
                                         start_time = startTime,
                                         game = validGames[currentGameIndex],
                                         player_count = partyCount
@@ -285,6 +288,18 @@ public class MainWindow : Window, IDisposable
                 // Update the configuration with the new selection
                 Plugin.Configuration.CurrentGameDropdown = validGames[currentGameIndex];
                 Plugin.Configuration.Save(); // Save your configuration
+            }
+
+
+            if (validGames[currentGameIndex] == "Blackjack")
+            {
+                if (currentStandIndex == -1) currentStandIndex = 0; // Default to first item if not found
+                if (ImGui.Combo("Dealer Stands", ref currentStandIndex, validStandOptions, validStandOptions.Length))
+                {
+                    // Update the configuration with the new selection
+                    Plugin.Configuration.CurrentStandDropdown = validStandOptions[currentStandIndex];
+                    Plugin.Configuration.Save(); // Save your configuration
+                }
             }
 
             string betlimitName = "";
