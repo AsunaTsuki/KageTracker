@@ -23,7 +23,7 @@ public class MainWindow : Window, IDisposable
 {
     private Plugin Plugin;
     
-    string[] validGames = new string[] { "Blackjack", "Poker", "Roulette", "Deathroll Tournament" };
+    string[] validGames = new string[] { "Blackjack", "Poker", "Bingo", "Roulette", "Deathroll Tournament" };
     string[] validStandOptions = new string[] { "16", "16/Soft 17", "17", "17/Soft 18" };
     public Timer _updateTimer;
     public bool _isUpdating = false;
