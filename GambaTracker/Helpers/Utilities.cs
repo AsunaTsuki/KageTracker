@@ -6,11 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
 using Dalamud.Game.Text.SeStringHandling;
 using ECommons.DalamudServices;
 using ECommons.Logging;
-using FFXIVClientStructs.FFXIV.Client.Game.Housing;
 using Newtonsoft.Json;
 
 namespace GambaTracker.Helpers

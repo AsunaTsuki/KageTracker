@@ -15,7 +15,7 @@ using Dalamud.Logging;
 using System.Threading;
 using System.Xml.Linq;
 using ECommons.ImGuiMethods;
-using System.Windows.Forms.VisualStyles;
+using ECommons.Logging;
 
 namespace GambaTracker.Windows;
 

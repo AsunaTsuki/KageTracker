@@ -4,6 +4,7 @@
     "Punchline": "Minx Dealer Tracker",
     "Description": "Minx Dealer Tracker",
     "ApplicableVersion": "any",
+    "DalamudApiVersion": 10,
     "Tags": [
         "gamba",
         "gambatracker",

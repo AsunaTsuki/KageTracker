@@ -14,6 +14,7 @@ using ECommons.DalamudServices;
 using System;
 using Dalamud.Game.Text.SeStringHandling;
 using System.Linq;
+using ECommons.Logging;
 
 namespace GambaTracker
 {
@@ -22,7 +23,7 @@ namespace GambaTracker
         public string Name => "GambaTracker";
         private const string CommandName = "/gamba";
         
-        private DalamudPluginInterface PluginInterface { get; init; }
+        private IDalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
         public Configuration Configuration { get; init; }
         public WindowSystem WindowSystem = new("GambaTracker");
@@ -36,8 +37,8 @@ namespace GambaTracker
 
 
         public Plugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] ICommandManager commandManager)
+            IDalamudPluginInterface pluginInterface,
+            ICommandManager commandManager)
         {
             this.PluginInterface = pluginInterface;
             this.CommandManager = commandManager;
