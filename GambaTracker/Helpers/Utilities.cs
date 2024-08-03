@@ -60,6 +60,12 @@ namespace GambaTracker.Helpers
                 {
                     // Adjust the URL to where your Flask app is hosted
                     string url = "https://tracker.gamba.pro/get_venue_list";
+
+                    // Add authorization key
+                    string dealerKey = Plugin.P.Configuration.DealerKey;
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", dealerKey);
+
+
                     var response = await client.GetStringAsync(url);
 
                     // Deserialize the JSON response into a string array
@@ -118,6 +124,11 @@ namespace GambaTracker.Helpers
                 {
                     // Adjust the URL to where your Flask app is hosted
                     string url = "https://tracker.gamba.pro/get_dealer_list";
+
+                    // Add authorization key
+                    string dealerKey = Plugin.P.Configuration.DealerKey;
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", dealerKey);
+
                     var response = await client.GetStringAsync(url);
 
                     // Deserialize the JSON response into a string array

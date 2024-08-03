@@ -1,6 +1,8 @@
 using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using Dalamud.Interface.Windowing;
+using GambaTracker.Helpers;
 using ImGuiNET;
 
 namespace GambaTracker.Windows;
@@ -14,7 +16,7 @@ public class ConfigWindow : Window, IDisposable
         ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoScrollbar |
         ImGuiWindowFlags.NoScrollWithMouse)
     {
-        this.Size = new Vector2(232, 75);
+        this.Size = new Vector2(265, 150);
         this.SizeCondition = ImGuiCond.Always;
 
         this.Configuration = plugin.Configuration;
@@ -24,14 +26,22 @@ public class ConfigWindow : Window, IDisposable
 
     public override void Draw()
     {
-        // can't ref a property, so use a local copy
-        //var configValue = this.Configuration.SomePropertyToBeSavedAndWithADefault;
-        //if (ImGui.Checkbox("Random Config Bool", ref configValue))
-        //{
-        //    this.Configuration.SomePropertyToBeSavedAndWithADefault = configValue;
-        //    // can save immediately on change, if you don't want to provide a "Save and Close" button
-        //    this.Configuration.Save();
-        //}
-        ImGui.Text("This is still TBD");
+        var dealerKey = Configuration.DealerKey;
+        if (ImGui.InputText("Dealer Key", ref dealerKey, (uint)50))
+        {
+            // Update the configuration with the new venue location (trim any excess space)
+            Configuration.DealerKey = dealerKey.Trim();
+            Configuration.Save(); // Save your configuration
+        }
+
+
+        if(ImGui.Button("Update Approved Dealers and Venues"))
+        {
+            // Pull the latest dealers from the server
+            Task.Run(async () => await Utilities.FetchValidDealersAsync());
+
+            // Pull the latest venues from the server
+            Task.Run(async () => await Utilities.FetchValidVenuesAsync());
+        }
     }
 }

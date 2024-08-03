@@ -16,6 +16,7 @@ using System.Threading;
 using System.Xml.Linq;
 using ECommons.ImGuiMethods;
 using ECommons.Logging;
+using ECommons.Automation;
 
 namespace GambaTracker.Windows;
 
@@ -59,6 +60,7 @@ public class MainWindow : Window, IDisposable
         {
             string[] validVenues = Plugin.P.Configuration.Venues;
             string[] validDealers = Plugin.P.Configuration.Dealers;
+            string dealerKey = Plugin.P.Configuration.DealerKey;
             var betLimits = Plugin.Configuration.BetLimits;
             var startTime = Plugin.Configuration.StartTime;
             var customVenueName = Plugin.Configuration.CustomVenueName;
@@ -90,6 +92,14 @@ public class MainWindow : Window, IDisposable
                 {
                     if (ImGui.Button("Start Dealing"))
                     {
+                        if(dealerKey.Trim() == "")
+                        {
+                            PluginLog.Warning("GambaTracker dealer key is blank!");
+                            var message = new SeStringBuilder().AddUiForeground((ushort)16).AddText("Dealer key is blank. Please set it in /gambasetup to deal").AddUiForegroundOff().Build();
+                            Svc.Chat.Print(new() { Message = message });
+                            return;
+                        }
+
                         if (!_isUpdating)
                         {
                             currentStatus = "Currently Dealing";
@@ -144,7 +154,8 @@ public class MainWindow : Window, IDisposable
                                         dealer_stand = validStandOptions[currentStandIndex],
                                         start_time = startTime,
                                         game = validGames[currentGameIndex],
-                                        player_count = partyCount
+                                        player_count = partyCount,
+                                        dealer_key = dealerKey
                                     };
                                     string jsonData = JsonSerializer.Serialize(data);
 
@@ -199,10 +210,12 @@ public class MainWindow : Window, IDisposable
 
                             var data = new
                             {
+                                
                                 dealer_name = $"{name}@{homeworld}",
                                 venue_name = "None",
                                 location = "None",
-                                player_count = UniversalParty.Members.Count
+                                player_count = UniversalParty.Members.Count,
+                                dealer_key = dealerKey
                             };
                             string jsonData = JsonSerializer.Serialize(data);
 

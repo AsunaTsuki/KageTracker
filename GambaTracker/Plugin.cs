@@ -22,6 +22,7 @@ namespace GambaTracker
     {
         public string Name => "GambaTracker";
         private const string CommandName = "/gamba";
+        private const string SettingsCommandName = "/gambasetup";
         
         private IDalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
@@ -60,12 +61,17 @@ namespace GambaTracker
 
             this.CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {
-                HelpMessage = "Opens the gamba dealer window"
+                HelpMessage = "Opens the gambatracker window"
+            });
+
+            this.CommandManager.AddHandler(SettingsCommandName, new CommandInfo(OnSettingsCommand)
+            {
+                HelpMessage = "Opens the gambatracker settings window"
             });
 
             this.PluginInterface.UiBuilder.Draw += DrawUI;
             this.PluginInterface.UiBuilder.OpenMainUi += DrawMainWindow;
-            //this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+            this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
 
             // Pull the latest venues from the server
             Task.Run(async () => await Utilities.FetchValidVenuesAsync());
@@ -138,9 +144,8 @@ namespace GambaTracker
 
         private void ToggleDealerWindow()
         {
-            // Assuming you have an instance of your MainWindow accessible
-            // For example, this could be stored in a property like this.PluginUi.MainWindow
-            
+
+
             if (this.MainWindow.IsOpen)
             {
                 // The window is currently open, so close it
@@ -152,10 +157,14 @@ namespace GambaTracker
                 string dealerWorld = Svc.ClientState?.LocalPlayer.HomeWorld.GameData.Name.ToString();
                 string dealerNameWorld = $"{dealerName}@{dealerWorld}";
                 var validDealers = P.Configuration.Dealers;
+                var dealerKey = P.Configuration.DealerKey;
                 PluginLog.Verbose($"Character name: {dealerName}@{dealerWorld}");
 
                 // Pull the latest dealers from the server
                 Task.Run(async () => await Utilities.FetchValidDealersAsync());
+
+                // Pull the latest venues from the server
+                Task.Run(async () => await Utilities.FetchValidVenuesAsync());
 
                 if (validDealers.Contains(dealerNameWorld))
                 {
@@ -165,6 +174,27 @@ namespace GambaTracker
                 {
                     Svc.Chat.Print("You are not an authorized dealer");
                 }
+
+                if (dealerKey == "")
+                {
+                    Svc.Chat.Print("Please make sure your dealer key is set in /gambasetup as it is currently blank.");
+                }
+            }
+        }
+
+        private void ToggleSettingsWindow()
+        {
+            // Assuming you have an instance of your MainWindow accessible
+            // For example, this could be stored in a property like this.PluginUi.MainWindow
+
+            if (this.ConfigWindow.IsOpen)
+            {
+                // The window is currently open, so close it
+                this.ConfigWindow.IsOpen = false;
+            }
+            else
+            {
+                this.ConfigWindow.IsOpen = true;
             }
         }
 
@@ -199,6 +229,11 @@ namespace GambaTracker
                 ToggleDealerWindow();
             }
 
+        }
+
+        private void OnSettingsCommand(string command, string args)
+        {
+            ToggleSettingsWindow();
         }
 
         public void DrawUI()

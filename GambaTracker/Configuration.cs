@@ -8,6 +8,7 @@ namespace GambaTracker
     public class Configuration : IPluginConfiguration
     {
         public int Version { get; set; } = 0;
+        public string DealerKey { get; set; } = "";
         public bool DebugMode { get; set; } = false;
         public string DebugDealer { get; set; } = "";
         public int DebugPartySize { get; set; } = 0;
