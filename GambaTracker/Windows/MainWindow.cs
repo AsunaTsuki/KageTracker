@@ -208,15 +208,40 @@ public class MainWindow : Window, IDisposable
                             SeString name = Svc.ClientState.LocalPlayer.Name;
                             String homeworld = Svc.ClientState.LocalPlayer.HomeWorld.GameData.Name;
 
+                            // Declare the 'data' variable as an anonymous type with default values
                             var data = new
                             {
-                                
-                                dealer_name = $"{name}@{homeworld}",
+                                dealer_name = string.Empty,
                                 venue_name = "None",
                                 location = "None",
                                 player_count = UniversalParty.Members.Count,
                                 dealer_key = dealerKey
                             };
+
+                            // Assign values based on the DebugMode condition
+                            if (Plugin.Configuration.DebugMode)
+                            {
+                                data = new
+                                {
+                                    dealer_name = $"{Plugin.Configuration.DebugDealer}",
+                                    venue_name = data.venue_name,
+                                    location = data.location,
+                                    player_count = data.player_count,
+                                    dealer_key = data.dealer_key
+                                };
+                            }
+                            else
+                            {
+                                data = new
+                                {
+                                    dealer_name = $"{name}@{homeworld}",
+                                    venue_name = data.venue_name,
+                                    location = data.location,
+                                    player_count = data.player_count,
+                                    dealer_key = data.dealer_key
+                                };
+                            }
+
                             string jsonData = JsonSerializer.Serialize(data);
 
                             Task.Run(async () => await Utilities.SendPostRequestAsync("https://tracker.gamba.pro/update_dealer", jsonData));
