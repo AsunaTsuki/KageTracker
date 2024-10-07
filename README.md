@@ -1,1 +1,1 @@
-GambaTracker Plugin for Club Minx Dealers
+GambaTracker Plugin
