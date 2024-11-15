@@ -4,7 +4,7 @@
     "Punchline": "Gamba Dealer Tracker",
     "Description": "Gamba Dealer Tracker",
     "ApplicableVersion": "any",
-    "DalamudApiVersion": 11,
+    "DalamudApiLevel": 11,
     "Tags": [
         "gamba",
         "gambatracker",
