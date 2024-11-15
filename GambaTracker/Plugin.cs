@@ -154,7 +154,7 @@ namespace GambaTracker
             else
             {
                 string dealerName = Svc.ClientState?.LocalPlayer.Name.ToString();
-                string dealerWorld = Svc.ClientState?.LocalPlayer.HomeWorld.GameData.Name.ToString();
+                string dealerWorld = Svc.ClientState?.LocalPlayer.HomeWorld.Value.Name.ToString();
                 string dealerNameWorld = $"{dealerName}@{dealerWorld}";
                 var validDealers = P.Configuration.Dealers;
                 var dealerKey = P.Configuration.DealerKey;
@@ -203,7 +203,7 @@ namespace GambaTracker
         private void OnCommand(string command, string args)
         {
             SeString name = Svc.ClientState.LocalPlayer?.Name;
-            String homeworld = Svc.ClientState.LocalPlayer?.HomeWorld.GameData.Name;
+            String homeworld = Svc.ClientState.LocalPlayer?.HomeWorld.Value.Name.ToString();
 
             string nameWorld = $"{name}@{homeworld}";
             if (args == "debug")

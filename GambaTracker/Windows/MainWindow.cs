@@ -5,7 +5,6 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using GambaTracker.Helpers;
 using System.Threading.Tasks;
-using GambaTracker.Helpers;
 using System.Text.Json;
 using ECommons.DalamudServices;
 using Dalamud.Game.Text.SeStringHandling;
@@ -111,7 +110,7 @@ public class MainWindow : Window, IDisposable
                                 if (Svc.ClientState.LocalPlayer?.IsTargetable == true)
                                 {
                                     SeString name = Svc.ClientState.LocalPlayer.Name;
-                                    String homeworld = Svc.ClientState.LocalPlayer.HomeWorld.GameData.Name;
+                                    String homeworld = Svc.ClientState.LocalPlayer.HomeWorld.Value.Name.ToString();
                                     String dealerNameWorld = "";
                                     int partyCount = 0;
 
@@ -206,7 +205,7 @@ public class MainWindow : Window, IDisposable
                             _isUpdating = false;
 
                             SeString name = Svc.ClientState.LocalPlayer.Name;
-                            String homeworld = Svc.ClientState.LocalPlayer.HomeWorld.GameData.Name;
+                            String homeworld = Svc.ClientState.LocalPlayer.HomeWorld.Value.Name.ToString();
 
                             // Declare the 'data' variable as an anonymous type with default values
                             var data = new

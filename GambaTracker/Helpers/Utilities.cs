@@ -75,12 +75,12 @@ namespace GambaTracker.Helpers
                     {
                         // Ensure "Minx" is always the first item
                         List<string> sortedVenues = new List<string>();
-                        if (venues.Contains("Club Minx"))
-                        {
-                            sortedVenues.Add("Club Minx");
-                            // Remove "Minx" from the original list to avoid duplication
-                            venues = venues.Where(v => v != "Club Minx").ToArray();
-                        }
+                        //if (venues.Contains("Club Minx"))
+                        //{
+                        //    sortedVenues.Add("Club Minx");
+                        //    // Remove "Minx" from the original list to avoid duplication
+                        //    venues = venues.Where(v => v != "Club Minx").ToArray();
+                        //}
 
                         // Add the rest of the venues
                         sortedVenues.AddRange(venues);

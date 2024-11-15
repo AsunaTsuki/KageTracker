@@ -1,10 +1,10 @@
 {
     "Author": "Asuna Tsuki",
     "Name": "GambaTracker",
-    "Punchline": "Minx Dealer Tracker",
-    "Description": "Minx Dealer Tracker",
+    "Punchline": "Gamba Dealer Tracker",
+    "Description": "Gamba Dealer Tracker",
     "ApplicableVersion": "any",
-    "DalamudApiVersion": 10,
+    "DalamudApiVersion": 11,
     "Tags": [
         "gamba",
         "gambatracker",
