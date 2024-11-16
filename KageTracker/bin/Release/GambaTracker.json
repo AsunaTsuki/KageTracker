@@ -1,0 +1,20 @@
+{
+  "Author": "Asuna Tsuki",
+  "Name": "GambaTracker",
+  "InternalName": "GambaTracker",
+  "AssemblyVersion": "1.4.0.0",
+  "Description": "Gamba Dealer Tracker",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "gamba",
+    "gambatracker",
+    "discord"
+  ],
+  "DalamudApiLevel": 11,
+  "LoadRequiredState": 0,
+  "LoadSync": false,
+  "CanUnloadAsync": false,
+  "LoadPriority": 0,
+  "Punchline": "Gamba Dealer Tracker",
+  "AcceptsFeedback": true
+}

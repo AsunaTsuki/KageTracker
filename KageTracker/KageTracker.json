@@ -1,0 +1,13 @@
+{
+    "Author": "Asuna Tsuki",
+    "Name": "KageTracker",
+    "Punchline": "Gamba Dealer Tracker",
+    "Description": "Gamba Dealer Tracker",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 11,
+    "Tags": [
+        "gamba",
+        "KageTracker",
+        "discord"
+    ]
+}

@@ -1,0 +1,20 @@
+{
+  "Author": "Asuna Tsuki",
+  "Name": "GambaTracker",
+  "InternalName": "GambaTracker",
+  "AssemblyVersion": "1.0.0.0",
+  "Description": "Minx Dealer Tracker",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "gamba",
+    "gambatracker",
+    "discord"
+  ],
+  "DalamudApiLevel": 10,
+  "LoadRequiredState": 0,
+  "LoadSync": false,
+  "CanUnloadAsync": false,
+  "LoadPriority": 0,
+  "Punchline": "Minx Dealer Tracker",
+  "AcceptsFeedback": true
+}
